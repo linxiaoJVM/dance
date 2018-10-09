@@ -16,7 +16,7 @@ public class TeacherReq {
     private String userName;
     @NotNull(message = "性别不能为空")
     private Integer gender;
-    @NotBlank(message = "手机号不能为空")
+//    @NotBlank(message = "手机号不能为空")
     private String mobile;
     private String address;
     @NotBlank(message = "简介不能为空")
