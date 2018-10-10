@@ -255,7 +255,69 @@ var admin = {
             }
         });
     },
-	
+    student_add_init : function() {
+        $("#addStudentBtn").click(function(){
+            admin.add_student_btn();
+        });
+        $("#closeBtn").click( function() {
+            commonUtil.closeBtn();
+        });
+    },    
+    //添加student信息
+    add_student_btn : function() {
+        var loginName = $("#loginName").val();
+        if( loginName == null || loginName == "" ) {
+            alert("请输入登录名");
+            return false;
+        }
+        var loginPassword = $("#loginPassword").val();
+        if( loginPassword == null || loginPassword == "" ) {
+            alert("请输入登录密码");
+            return false;
+        }
+        var userName = $("#userName").val();
+        if( userName == null || userName == "" ) {
+            alert("请输入用户名");
+            return false;
+        }
+        var gender = $("#gender").val();
+        if( gender == null || gender == "" ) {
+            alert("请选择性别");
+            return false;
+        }
+        var mobileNum = $("#mobileNum").val();
+        var address = $("#address").val();
+        if( address == null || address == "" ) {
+            alert("请添加描述");
+            return false;
+        }
+        var remainNum = $("#remainNum").val();
+        if( remainNum == null || remainNum == "" ) {
+            alert("请输入用户名");
+            return false;
+        }
+        
+
+        $("#addStudentBtn").hide();
+        $('#addStudentBtn').after("<span id='waitInfo' class='waitInfo'>正在保存数据，请稍等！</span>");
+        $.ajax({
+            type: "post",
+            url: "/student/saveStudent",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"loginName":loginName,"password":loginPassword,"userName":userName,"gender":gender,"mobile":mobileNum,"address":address,"remainNum":remainNum}),
+            dataType: "json",
+            success: function(data){
+                if(data.code != 0) {
+                    commonUtil.clearWaitInfo();
+                    $("#addCourseBtn").show();
+                }
+                else{
+                    window.location.href = "/admin/studentInfo.html";
+                    //alert("添加成功");
+                }
+            }
+        });
+    },
 	 //异步加载学员信息
     student_list_init : function() {
         $.get("/student/studentAll", function(data){
@@ -279,7 +341,69 @@ var admin = {
         });
         $("#tlist").html(str);
     },
+    //添加课程初始化方法
+    teacher_add_init : function() {
 
+        $("#addTeacherBtn").click(function(){
+            admin.add_teacher_btn();
+        });
+        $("#closeBtn").click( function() {
+            commonUtil.closeBtn();
+        });
+    },
+    
+    //添加课程信息
+    add_teacher_btn : function() {
+        var loginName = $("#loginName").val();
+        if( loginName == null || loginName == "" ) {
+            alert("请输入登录名");
+            return false;
+        }
+        var loginPassword = $("#loginPassword").val();
+        if( loginPassword == null || loginPassword == "" ) {
+            alert("请输入登录密码");
+            return false;
+        }
+        var userName = $("#userName").val();
+        if( userName == null || userName == "" ) {
+            alert("请输入用户名");
+            return false;
+        }
+        var gender = $("#gender").val();
+        if( gender == null || gender == "" ) {
+            alert("请选择性别");
+            return false;
+        }
+        var mobileNum = $("#mobileNum").val();
+        var remark = $("#remark").val();
+        if( remark == null || remark == "" ) {
+            alert("请添加描述");
+            return false;
+        }
+        
+
+        $("#addCourseBtn").hide();
+        $('#addCourseBtn').after("<span id='waitInfo' class='waitInfo'>正在保存数据，请稍等！</span>");
+        $.ajax({
+            type: "post",
+            url: "/teacher/saveTeacher",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"loginName":loginName,"password":loginPassword,"userName":userName,"gender":gender,"mobile":mobileNum,"remark":remark}),
+            dataType: "json",
+            success: function(data){
+                if(data.code != 0) {
+                    commonUtil.clearWaitInfo();
+                    $("#addCourseBtn").show();
+                }
+                else{
+                    window.location.href = "/admin/teacherList.html";
+                    //alert("添加成功");
+                }
+            }
+        });
+    },
+    
+    
     //异步加载课程数据
     teacher_list_init : function() {
         $.get("/teacher/teacherAll", function(data){
